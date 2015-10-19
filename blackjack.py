@@ -2,19 +2,7 @@ import random
 
 
 class Card:
-    """
-    Responsibilities:
-        * Has a suit (Heart, Clubs, Spades, Diamonds)
-        * Has a value (Face cards =  10, Aces can be 1 or 11 depending on hand)
-
-    Contributes:
-        *Makes up the deck
-        *Makes up the hand of the player and dealer
-    """
-    suit = ""
-    rank = ""
-
-    def __init__(self, suit, rank):
+    def __init__(self, rank, suit):
         self.suit = suit
         self.rank = rank
 
@@ -32,55 +20,47 @@ class Card:
 
 
 class Deck:
-    """
-    Responsibilities:
-        *Made up of cards
-        *Contains 52 cards
-        *Must be shuffled after every round
-
-    Contributes:
-        *Multiple decks make up shoe
-        *Used in the game
-    """
     my_random = 10
 
     def __init__(self):
         self.cards = []
         for suit in ['Heart', 'Clubs', 'Spades', 'Diamonds']:
             for rank in ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']:
-                self.cards.append(Card(suit, rank))
+                self.cards.append(Card(rank, suit))
 
     def shuffle(self):
         print("I am shuffling")
         random.shuffle(self.cards)
 
-    def dealing(self):
-        card1 = random.choice(self.cards)
-        card2 = random.choice(self.cards)
-        print(card1, card2)
+    def __str__(self):
+        return str([card.__str__() for card in self.cards])
+
+
+class Hand():
+    def __init__(self, *cards):
+        self.cards = []
+        self.cards_in_hand = []
+        self.value = 0
+
+    def draw_from(self):
+        print()
+        card1 = self.cards.pop()
+        card2 = self.cards.pop()
+        self.cards_in_hand = [card1, card2]
+
+    def return_to(self):
+        for cards in self.cards_in_hand:
+            self.deck.append(cards)
+        self.cards_in_hand = []
+
+    def __str__(self):
+        return str(self.cards_in_hand)
 
 
 class Player:
-    """
-    Responsibilities:
-        *Places bets
-        *chooses to hit or stand
-
-    Contributes:
-        *plays the game
-        *cards make up hand
-    """
     def __init__(self, *hand):
-        self.cash = 100
         self.hand = hand
         self.hit_stand = ""
-
-    def bets(self):
-        if self.cash <= 10:
-            print("You need money to play this game, punk")
-        else:
-            self.cash -= 10
-            return self.cash
 
     def hit_or_stand(self, card_count):
         while True:
@@ -96,18 +76,8 @@ class Player:
                 print("HIT or STAND!")
         return self.hit_stand
 
-    def show_hand(self):
-        print(self.hand)
 
 class Dealer(Player):
-    """
-    Responsibilities:
-        *deals cards
-        *plays game like a player
-
-    Contributes:
-        *starts game
-    """
     def hit_or_stand(self, card_count):
         if card_count < 17:
             self.hit_stand = "Hit"
@@ -115,35 +85,12 @@ class Dealer(Player):
             self.hit_stand = "Stand"
         return self.hit_stand
 
-class Hand(Card):
-    """
-    responsibilities:
-        * keeps track of hand amount
-        *
-    """
-    card_count =
 
-    def __init__(self):
-        super.__init__(self)
-        self.hand_value = 0
-
-    def dealing(self):
-        card1 = random.choice(self.cards)
-        card2 = random.choice(self.cards)
-        print(card1, card2)
-
-    def hand_value(self):
-        self.hand_value = self.value(self.card1) + self.value(self.card2)
-class Game:
-    """
-    Responsibilities:
-
-    """
-    def __init__(self, p_hand, d_hand, cash):
+class Game():
+    def __init__(self, p_hand, d_hand, cash=100):
         self.p_hand = p_hand
         self.d_hand = d_hand
-        self. cash = cash
-
+        self.cash = cash
 
     def blackjack(self, p_hand, d_hand, cash):
         if d_hand < p_hand <= 21:
@@ -153,4 +100,11 @@ class Game:
         else:
             return self.cash
 
+
 if __name__ == '__main__':
+    deck = Deck()
+    deck.shuffle()
+    print(deck)
+    hand = Hand(deck)
+    hand.draw_from()
+    print(hand)
