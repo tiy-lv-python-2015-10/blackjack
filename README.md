@@ -1,5 +1,12 @@
 # Blackjack
 
+## Quickstart
+```shell
+pip install -i https://test.pypi.org/simple/ flynn-blackjack
+
+python -m blackjack
+```
+
 ## Description
 
 This assignment takes place over a Wednesday night and a weekend. Feel free to adjust if needed.
@@ -109,3 +116,9 @@ This is again an assignment with a text-based interface, which can be very hard 
 * [Portland Pattern Repository page on CRC cards](http://c2.com/cgi/wiki?CrcCard)
 * [A Brief Tour of Responsibility-Driven Design](http://www.wirfs-brock.com/PDFs/A_Brief-Tour-of-RDD.pdf)
 * [Building Skills in Object-Oriented Design](http://www.itmaybeahack.com/book/oodesign-python-2.1/html/index.html)
+
+## How to Publish
+- Update the version in setup.py
+- `python setup.py sdist bdist_wheel`
+- `twine upload --repository testpypi dist/*`
+- Enter test pypi username & password

@@ -1,0 +1,5 @@
+build/*
+dist/*
+.idea/*
+flynn_blackjack.egg-info/
+*.pyc
